@@ -7,7 +7,7 @@ fastify.register(require("fastify-bcrypt"), {
     saltWorkFactor: 12,
 });
 
-const JWT_SECRET = "your_jwt_secret";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const signUp = async (req, reply) =>
  {
