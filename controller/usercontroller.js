@@ -3,9 +3,6 @@ const {sign} = require("jsonwebtoken");
 const {hashPassword, comparePassword} = require("../utils/Password");
 const fastify = require("fastify")();
 
-fastify.register(require("fastify-bcrypt"), {
-    saltWorkFactor: 12,
-});
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
