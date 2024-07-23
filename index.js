@@ -15,7 +15,6 @@ mongoose
 .then(() => console.log("connected"))
 .catch((err) => console.log(err));
 
-JViIyiAyH4NORHEq
 
 
 fastify.get("/", function (request, reply) {
