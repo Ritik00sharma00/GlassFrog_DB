@@ -4,13 +4,13 @@ const User = require('../model/usermodel');
 const getUserIdByUsername = async (email) => {
 
   try {
-    const user = await User.findOne({
-      email
-    }, '_id');
-    if (!user) {
+    const userid = await User.findOne({
+      _id
+    }, email);
+    if (!userid) {
       throw new Error('User not found');
     }
-    return user._id;
+    return userid;
   } catch (err) {
     console.error('Error fetching user ID:', err);
     throw err;
