@@ -23,7 +23,7 @@ fastify.get("/", function (request, reply) {
 
 
 
-fastify.listen({port: parseInt(process.env.PORT, 10)}, function (err, address) {
+fastify.listen({port: process.env.PORT, function (err, address) {
     if (err) {
         fastify.log.error(err);
         process.exit(1);
