@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@fastify/mongodb": "^8.0.0",
+    "@fastify/cors": "^8.0.0",  // Add this line
     "bcrypt": "^5.1.1",
     "dot-env": "^0.0.1",
     "dotenv": "^16.4.5",
