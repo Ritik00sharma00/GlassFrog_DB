@@ -2,7 +2,7 @@ const User = require("../model/usermodel");
 const {sign} = require("jsonwebtoken");
 const {hashPassword, comparePassword} = require("../utils/Password");
 const fastify = require("fastify")();
-
+const {getUserIdByUsername}=require("../controller/taskcontroller");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -50,8 +50,8 @@ async function signIn(req, reply) {
         }
 
         const token = sign({userId: user._id}, JWT_SECRET, {expiresIn: "1h"});
-
-        reply.send({message: "Signed in successfully", token});
+        const userid=token!='null'?getUserIdByUsername(email):null;
+        reply.send({message: "Signed in successfully", token,userid});
     } catch (err) {
         console.log(err);
         reply.code(500).send({error: "Error signing in"});

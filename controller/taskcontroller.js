@@ -1,10 +1,11 @@
 const Task = require('../model/tasksmodel');
 const User = require('../model/usermodel');
 
-const getUserIdByUsername = async (username) => {
+const getUserIdByUsername = async (email) => {
+
   try {
     const user = await User.findOne({
-      username
+      email
     }, '_id');
     if (!user) {
       throw new Error('User not found');
@@ -17,7 +18,6 @@ const getUserIdByUsername = async (username) => {
 };
 
 
-// this congtroller is to create task.
 const createTask = async (req, reply) => {
 
   const {
@@ -176,6 +176,7 @@ async function updateTask(req, reply) {
 };
 
 module.exports = {
+  getUserIdByUsername,
   createTask,
   getTasks,
   updateTask,
