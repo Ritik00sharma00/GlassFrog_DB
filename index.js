@@ -1,31 +1,38 @@
-const fastify = require("fastify")({ logger: true,});
+const fastify = require("fastify")({ logger: true });
 const mongoose = require("mongoose");
 const userRoutes = require("./routes/userRoutes");
-const  taskRoutes = require("./routes/taskroutes/taskroutes");
+const taskRoutes = require("./routes/taskroutes/taskroutes");
 const authPlugin = require('./middlewares/authMiddleware');
 require('dotenv').config();
+
+// Register middleware
 fastify.register(authPlugin);
 
+// Register routes with prefix
+fastify.register(userRoutes, { prefix: '/api/' });
+fastify.register(taskRoutes, { prefix: '/api/' });
 
-fastify.register(userRoutes,{prefix:'/api/'});
-fastify.register(taskRoutes,{prefix:'/api/'});
-
-mongoose
-.connect( process.env.DATABASE_URI)
-.then(() => console.log("connected"))
-.catch((err) => console.log(err));
-
-
-
-fastify.get("/", function (request, reply) {
-    reply.send({hello: "world"});
+// Connect to MongoDB
+mongoose.connect(process.env.DATABASE_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log("Connected to MongoDB"))
+.catch((err) => {
+  console.error('Failed to connect to MongoDB', err.message);
+  process.exit(1); // Exit the process if the connection fails
 });
 
+// Default route
+fastify.get("/", function (request, reply) {
+  reply.send({ hello: "world" });
+});
 
-
-fastify.listen({port: process.env.PORT, function (err, address) {
-    if (err) {
-        fastify.log.error(err);
-        process.exit(1);
-    }
+// Start the server
+fastify.listen(process.env.PORT, '0.0.0.0', function (err, address) {
+  if (err) {
+    fastify.log.error(err);
+    process.exit(1);
+  }
+  console.log(`Server is running on ${address}`);
 });
