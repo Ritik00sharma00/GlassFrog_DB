@@ -13,7 +13,7 @@ const createTask = async (req, reply) => {
 
   try {
     // Find user’s tasks by user_Id
-    const userTasks = await Task.findOne({ user_Id:user_Id });
+    const userTasks = await Task.find({ user_Id:user_Id });
 
     let newTask;
 
@@ -63,7 +63,7 @@ const createTask = async (req, reply) => {
 async function getTasks(req, reply) {
   const   user_Id = req.params.user_Id;
   try {
-    const userTasks = await Task.findOne({user_Id:user_Id});
+    const userTasks = await Task.findOne({user_Id:user_Id+''});
     if (!userTasks) {
       return reply.code(404).send({
         error: "No tasks found for this user"
