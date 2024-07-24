@@ -4,22 +4,15 @@ const User = require('../model/usermodel');
 
 const createTask = async (req, reply) => {
   const user_Id = req.params.userId;  // Assuming userId is passed as a URL parameter
-  const {
-    title,
-    description,
-    dueDate,
-    status
-  } = req.body;
+  const { title, description, dueDate, status } = req.body;
 
   try {
     // Find user’s tasks by user_Id
-    const userTasks = await Task.find({ user_Id:user_Id });
-
-    let newTask;
+    let userTasks = await Task.findOne({ user_Id });  // Changed to findOne
 
     if (!userTasks) {
       // If no tasks exist for the user, create a new task list
-      newTask = new Task({
+      userTasks = new Task({
         user_Id,
         tasks: [{
           title,
@@ -28,20 +21,19 @@ const createTask = async (req, reply) => {
           status
         }]
       });
-      await newTask.save();
+      await userTasks.save();
       reply.code(201).send({
         message: "Task created successfully",
-        task: newTask
+        task: userTasks
       });
     } else {
       // If tasks exist, add the new task to the existing list
-      newTask = {
+      userTasks.tasks.push({
         title,
         description,
         dueDate,
         status
-      };
-      userTasks.tasks.push(newTask);
+      });
       await userTasks.save();
       reply.code(201).send({
         message: "Task added successfully",
@@ -57,19 +49,15 @@ const createTask = async (req, reply) => {
 };
 
 
-
-
 //this controller is to  fetch tasks  of a particulart user .
 async function getTasks(req, reply) {
 const user_Id  = req.params;
 
   try {
     const tasks = await Task.find({ user_Id:user_Id});
-    if (tasks) {
+    
       reply.code(200).send(tasks);
-    } else {
-      reply.code(404).send({ message: 'No tasks found for this user.' });
-    }
+    
   } catch (error) {
     console.error('Error fetching tasks:', error);
     reply.code(500).send({ error: 'Failed to fetch tasks' });
