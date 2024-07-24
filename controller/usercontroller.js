@@ -2,7 +2,8 @@ const User = require("../model/usermodel");
 const {sign} = require("jsonwebtoken");
 const {hashPassword, comparePassword} = require("../utils/Password");
 const fastify = require("fastify")();
-const {getUserIdByUsername}=require("../controller/taskcontroller");
+
+const {taskcontroller}=require("../controller/taskcontroller");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
