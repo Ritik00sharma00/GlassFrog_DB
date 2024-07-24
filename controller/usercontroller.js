@@ -57,7 +57,7 @@ async function signIn(req, reply) {
         reply.send({message: "Signed in successfully", token,userdetail});
     } catch (err) {
         console.log(err);
-        reply.code(500).send({error: "Error signing in"});
+        reply.code(500).send({error:err});
     }
 }
 
