@@ -54,7 +54,7 @@ async function signIn(req, reply) {
         const token = sign({userId: user._id}, JWT_SECRET, {expiresIn: "1h"});
         
     const userdetail = await User.findById(userId);
-        reply.send({message: "Signed in successfully", token,userdetail);
+        reply.send({message: "Signed in successfully", token,userdetail});
     } catch (err) {
         console.log(err);
         reply.code(500).send({error: "Error signing in"});
