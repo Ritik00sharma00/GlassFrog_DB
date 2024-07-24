@@ -38,28 +38,30 @@ const signUp = async (req, reply) =>
         }
 };
 
+
 async function signIn(req, reply) {
-    const {email, password} = req.body;
+    const { email, password } = req.body;
     try {
-        const user = await User.findOne({email});
-        if (!user) {
-            return reply.code(401).send({error: "Invalid credentials"});
-        }
-
-        const isMatch = await comparePassword(password, user.password);
-        if (!isMatch) {
-            return reply.code(401).send({error: "Invalid credentials"});
-        }
-
-        const token = sign({userId: user._id}, JWT_SECRET, {expiresIn: "1h"});
-        
-    const userdetail = await User.findById( user._id);
-        reply.send({message: "Signed in successfully", token,userdetail});
+      const user = await User.findOne({ email });
+      if (!user) {
+        return reply.code(401).send({ error: "Invalid credentials" });
+      }
+  
+      const isMatch = await comparePassword(password, user.password);
+      if (!isMatch) {
+        return reply.code(401).send({ error: "Invalid credentials" });
+      }
+  
+      const token = sign({ userId: user._id }, JWT_SECRET, { expiresIn: "1h" });
+      const userid = await taskcontroller.getUserIdByUsername(email);
+  
+      reply.header('Authorization', `Bearer ${token}`);
+      reply.send({ message: "Signed in successfully",token, userid });
     } catch (err) {
-        console.log(err);
-        reply.code(500).send({error:err});
+      console.log(err);
+      reply.code(500).send({ error: err });
     }
-}
+  }
 
 module.exports = {
     signUp,
