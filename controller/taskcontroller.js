@@ -160,7 +160,7 @@ async function updateTask(req, reply) {
 };
 
 module.exports = {
-  getUserIdByUsername,
+
   createTask,
   getTasks,
   updateTask,
