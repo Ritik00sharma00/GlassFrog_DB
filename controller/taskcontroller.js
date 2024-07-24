@@ -63,7 +63,7 @@ const createTask = async (req, reply) => {
 async function getTasks(req, reply) {
   const {
     user_Id
-  } = req.params.user_Id;
+  } = req.params;
   try {
     const userTasks = await Task.findOne({user_Id:user_Id});
     if (!userTasks) {
