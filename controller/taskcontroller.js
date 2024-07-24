@@ -51,7 +51,7 @@ const createTask = async (req, reply) => {
 
 //this controller is to  fetch tasks  of a particulart user .
 async function getTasks(req, reply) {
-  const { user_Id } = req.params;  // Destructure user_Id from req.params
+  const user_Id  = req.params.userId;  // Destructure user_Id from req.params
 
   try {
     // Ensure user_Id is being passed correctly
