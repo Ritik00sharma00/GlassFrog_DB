@@ -65,7 +65,7 @@ async function getTasks(req, reply) {
     user_Id
   } = req.params.user_Id;
   try {
-    const userTasks = await Task.findOne({user_Id});
+    const userTasks = await Task.findOne({user_Id:user_Id});
     if (!userTasks) {
       return reply.code(404).send({
         error: "No tasks found for this user"
