@@ -55,14 +55,14 @@ async function signIn(req, reply) {
       const token = sign({ userId: user._id }, JWT_SECRET, { expiresIn: "1h" });
       const userid = await taskcontroller.getUserIdByUsername(email);
   
-      reply.header('Authorization', `Bearer ${token}`);
-      reply.send({ message: "Signed in successfully",token, userid });
+      reply
+        .header('Authorization', `Bearer ${token}`)
+        .send({ message: "Signed in successfully", token, userid });
     } catch (err) {
-      console.log(err);
-      reply.code(500).send({ error: err });
+      console.error("Error in signIn:", err); 
+      reply.code(500).send({ error: "Internal server error" });
     }
   }
-
 module.exports = {
     signUp,
     signIn,
