@@ -62,9 +62,6 @@ async function getTasks(req, reply) {
     // Find tasks by user_Id
     const tasks = await Task.find({ user_Id : user_Id }); 
     
-    if (!tasks.length) {
-      return reply.code(404).send({ error: 'No tasks found for this user' });
-    }
     
     reply.code(200).send({ tasks });
     
