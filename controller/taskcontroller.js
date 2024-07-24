@@ -64,7 +64,7 @@ async function getTasks(req, reply) {
 const user_Id  = req.params;
 
   try {
-    const tasks = await Task.find({ user_Id });
+    const tasks = await Task.find({ user_Id:user_Id});
     if (tasks) {
       reply.code(200).send(tasks);
     } else {
