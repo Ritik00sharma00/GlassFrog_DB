@@ -3,10 +3,8 @@ const User = require('../model/usermodel');
 
 
 const createTask = async (req, reply) => {
-
-  const user_Id=req.params;
+  const user_Id = req.params.userId;  // Assuming userId is passed as a URL parameter
   const {
-    
     title,
     description,
     dueDate,
@@ -14,23 +12,20 @@ const createTask = async (req, reply) => {
   } = req.body;
 
   try {
-
-    //  const user_Id = await getUserIdByUsername(username); 
-
-    const userTasks = await Task.findOne({
-      user_Id
-    });
+    // Find user’s tasks by user_Id
+    const userTasks = await Task.findOne({ user_Id });
 
     let newTask;
-    // console.log(newTask);
+
     if (!userTasks) {
+      // If no tasks exist for the user, create a new task list
       newTask = new Task({
         user_Id,
         tasks: [{
-          title: title,
-          description: description,
-          dueDate: dueDate,
-          status: status
+          title,
+          description,
+          dueDate,
+          status
         }]
       });
       await newTask.save();
@@ -39,16 +34,13 @@ const createTask = async (req, reply) => {
         task: newTask
       });
     } else {
-      console.log("else part")
-      console.log(newTask);
+      // If tasks exist, add the new task to the existing list
       newTask = {
-
-        title: title,
-        description: description,
-        dueDate: dueDate,
-        status: status
-
-      }
+        title,
+        description,
+        dueDate,
+        status
+      };
       userTasks.tasks.push(newTask);
       await userTasks.save();
       reply.code(201).send({
