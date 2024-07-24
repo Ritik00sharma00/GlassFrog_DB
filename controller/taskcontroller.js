@@ -61,23 +61,19 @@ const createTask = async (req, reply) => {
 
 //this controller is to  fetch tasks  of a particulart user .
 async function getTasks(req, reply) {
-  const   user_Id = req.params.user_Id;
+const { user_Id } = request.params;
+
   try {
-    const userTasks = await Task.findOne({user_Id:user_Id});
-    if (!userTasks) {
-      return reply.code(404).send({
-        error: "No tasks found for this user"
-      });
+    const tasks = await Task.find({ user_Id });
+    if (tasks.length > 0) {
+      reply.code(200).send(tasks);
+    } else {
+      reply.code(404).send({ message: 'No tasks found for this user.' });
     }
-    reply.send({
-      tasks: userTasks.tasks
-    });
-  } catch (err) {
-    reply.code(500).send({
-      error: "Error fetching tasks"
-    });
-  }
-}
+  } catch (error) {
+    console.error('Error fetching tasks:', error);
+    reply.code(500).send({ error: 'Failed to fetch tasks' });
+  }}
 
 
 //this controller is to update the task from the user
