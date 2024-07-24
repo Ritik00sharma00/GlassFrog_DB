@@ -3,7 +3,7 @@ async function authPlugin(fastify, options) {
     
     fastify.decorate('authenticate', async function (request, reply) {
       
-      const authHeader = request.headers.authorization;
+      const authHeader = request.headers.Authorization;
   
       if (!authHeader) {
         reply.code(401).send({ error: 'Unauthorized' });
