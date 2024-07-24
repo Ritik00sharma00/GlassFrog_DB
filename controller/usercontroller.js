@@ -56,7 +56,6 @@ async function signIn(req, reply) {
       const userid = await taskcontroller.getUserIdByUsername(email);
   
       reply.header('Authorization', `Bearer ${token}`);
-      reply.send({ message: "Signed in successfully",token, userid });
     } catch (err) {
       console.log(err);
       reply.code(500).send({ error: err });
