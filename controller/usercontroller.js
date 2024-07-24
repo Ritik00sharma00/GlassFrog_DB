@@ -53,7 +53,8 @@ async function signIn(req, reply) {
       }
   
       const token = sign({ userId: user._id }, JWT_SECRET, { expiresIn: "1h" });
-     const userdetail=await User.findById(user._id);
+        const userId = mongoose.Types.ObjectId(user._id);
+        const userdetail=await User.find({ _id: userId });
   
       reply
         .header('Authorization', `Bearer ${token}`)
