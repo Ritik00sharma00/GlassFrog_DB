@@ -50,7 +50,8 @@ async function signIn(req, reply) {
         }
 
         const token = sign({userId: user._id}, JWT_SECRET, {expiresIn: "1h"});
-       const userid=getUserIdByUsername(email);
+    
+        const userid=token!=null?taskcontroller.getUserIdByUsername(email):'';   
         reply.send({message: "Signed in successfully", token,userid});
     } catch (err) {
         console.log(err);
