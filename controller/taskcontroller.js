@@ -4,8 +4,9 @@ const User = require('../model/usermodel');
 
 const createTask = async (req, reply) => {
 
+  const user_Id=req.params;
   const {
-    user_Id,
+    
     title,
     description,
     dueDate,
