@@ -3,9 +3,10 @@ const {sign} = require("jsonwebtoken");
 const {hashPassword, comparePassword} = require("../utils/Password");
 const fastify = require("fastify")();
 
-const {taskcontroller}=require("../controller/taskcontroller");
 
 const JWT_SECRET = process.env.JWT_SECRET;
+
+
 
 const signUp = async (req, reply) =>
  {
@@ -51,9 +52,9 @@ async function signIn(req, reply) {
         }
 
         const token = sign({userId: user._id}, JWT_SECRET, {expiresIn: "1h"});
-    
-        const userid=taskcontroller.getUserIdByUsername(email);
-        reply.send({message: "Signed in successfully", token,userid});
+        
+    const userdetail = await User.findById(userId);
+        reply.send({message: "Signed in successfully", token,userdetail);
     } catch (err) {
         console.log(err);
         reply.code(500).send({error: "Error signing in"});
