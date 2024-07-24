@@ -3,7 +3,7 @@ const User = require('../model/usermodel');
 
 const getUserIdByUsername = async (email) => {
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email }, { projection: { _id: 1, username: 1 } });;
 
     if (!user) {
       throw new Error('User not found');
@@ -86,7 +86,7 @@ const createTask = async (req, reply) => {
 //this controller is to  fetch tasks  of a particulart user .
 async function getTasks(req, reply) {
   const {
-    user_Id,taskId
+    user_Id
   } = req.params;
   try {
     const userTasks = await Task.findOne({
