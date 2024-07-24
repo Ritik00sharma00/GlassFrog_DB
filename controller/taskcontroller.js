@@ -1,23 +1,6 @@
 const Task = require('../model/tasksmodel');
 const User = require('../model/usermodel');
 
-const getUserIdByUsername = async (email) => {
-  try {
-    const user = await User.findOne({ email: email }, { projection: { _id: 1, username: 1 } });;
-
-    if (!user) {
-      throw new Error('User not found');
-    }
-
-    const userId = user._id;
-    const username = user.username;
-
-    return { userId, username };
-  } catch (err) {
-    console.error('Error fetching user ID:', err);
-    throw err;
-  }
-};
 
 const createTask = async (req, reply) => {
 
