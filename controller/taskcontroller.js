@@ -65,7 +65,7 @@ const { user_Id } = request.params;
 
   try {
     const tasks = await Task.find({ user_Id });
-    if (tasks.length > 0) {
+    if (tasks) {
       reply.code(200).send(tasks);
     } else {
       reply.code(404).send({ message: 'No tasks found for this user.' });
