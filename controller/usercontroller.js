@@ -39,31 +39,30 @@ const signUp = async (req, reply) =>
 };
 
 
-async function signIn(req, reply) {
-    const { email, password } = req.body;
-    try {
-      const user = await User.findOne({ email });
-      if (!user) {
-        return reply.code(401).send({ error: "Invalid credentials" });
-      }
-  
-      const isMatch = await comparePassword(password, user.password);
-      if (!isMatch) {
-        return reply.code(401).send({ error: "Invalid credentials" });
-      }
-  
-      const token = sign({ userId: user._id }, JWT_SECRET, { expiresIn: "1h" });
-        const userId = mongoose.Types.ObjectId(user._id);
-        const userdetail=await User.find({ _id: userId });
-  
-      reply
-        .header('Authorization', `Bearer ${token}`)
-        .send({ message: "Signed in successfully", token, userdetail });
-    } catch (err) {
-      console.error("Error in signIn:", err); 
-      reply.code(500).send({ error: "Internal server error" });
+const signIn = async (req, reply) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return reply.code(401).send({ error: "Invalid credentials" });
     }
+
+    const isMatch = await comparePassword(password, user.password);
+    if (!isMatch) {
+      return reply.code(401).send({ error: "Invalid credentials" });
+    }
+
+    const token = sign({ userId: user._id }, JWT_SECRET, { expiresIn: "1h" });
+    
+    // Directly send user details without extra query
+    reply
+      .header('Authorization', `Bearer ${token}`)
+      .send({ message: "Signed in successfully", token, userdetail: user });
+  } catch (err) {
+    console.error("Error in signIn:", err); 
+    reply.code(500).send({ error: "Internal server error" });
   }
+};
 module.exports = {
     signUp,
     signIn,
