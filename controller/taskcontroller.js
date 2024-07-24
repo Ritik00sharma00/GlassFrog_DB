@@ -13,7 +13,7 @@ const createTask = async (req, reply) => {
 
   try {
     // Find user’s tasks by user_Id
-    const userTasks = await Task.findOne({ user_Id });
+    const userTasks = await Task.findOne({ user_Id:user_Id });
 
     let newTask;
 
