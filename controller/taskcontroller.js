@@ -61,7 +61,7 @@ const createTask = async (req, reply) => {
 
 //this controller is to  fetch tasks  of a particulart user .
 async function getTasks(req, reply) {
-const { user_Id } = request.params;
+const user_Id  = req.params;
 
   try {
     const tasks = await Task.find({ user_Id });
