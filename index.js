@@ -2,7 +2,6 @@ const fastify = require("fastify")({ logger: true });
 const mongoose = require("mongoose");
 const userRoutes = require("./routes/userRoutes");
 const taskRoutes = require("./routes/taskroutes/taskroutes");
-const authPlugin = require('./middlewares/authMiddleware');
 const fastifyCors = require('@fastify/cors');
 require('dotenv').config();
 
@@ -14,8 +13,6 @@ fastify.register(fastifyCors, {
 });
 
 
-// Register middleware
-fastify.register(authPlugin);
 
 // Register routes with prefix
 fastify.register(userRoutes, { prefix: '/api/' });
