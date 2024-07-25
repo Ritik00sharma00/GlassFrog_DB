@@ -73,7 +73,7 @@ async function getTasks(req, reply) {
 
 //this controller is to update the task from the user
 async function updateTask(req, reply) {
-  const { user_Id, taskId } = req.params;
+  const { taskId,user_Id } = req.params;
   const updateData = req.body;
 
   try {
@@ -104,7 +104,7 @@ async function updateTask(req, reply) {
     });
   } catch (err) {
     console.error('Error updating task:', err);
-    reply.code(500).send({ error: "Error updating task" });
+    reply.code(500).send({ error: err.message });
   }
 }
 
