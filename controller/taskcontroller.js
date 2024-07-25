@@ -91,8 +91,8 @@ async function updateTask(req, reply) {
       return reply.code(404).send({ error: "Task not found" });
     }
 
-    // here, the task with the new data
-    Object.assign(userTasks.tasks[taskIndex], updateData);
+    // here, the task with the new data.The splice method can easily replace at the particular index  and tasks is an array
+  userTasks.tasks.splice(taskIndex,1,updateData);
 
     // The tasks are saved herw
     await userTasks.save();
