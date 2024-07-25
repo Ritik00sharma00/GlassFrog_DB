@@ -73,43 +73,37 @@ async function getTasks(req, reply) {
 
 //this controller is to update the task from the user
 async function updateTask(req, reply) {
-  const {
-    user_Id,
-    taskId
-  } = req.params;
+  const { user_Id, taskId } = req.params;
   const updateData = req.body;
 
   try {
-    const userTasks = await Task.findOne({
-      user_Id,
-      tasks: { $elemMatch: { _id: taskId } } 
-    });
+    // fiNd the user tasks
+    const userTasks = await Task.findOne({ user_Id });
 
     if (!userTasks) {
-      return reply.code(404).send({
-        error: "User not found"
-      });
+      return reply.code(404).send({ error: "User not found" });
     }
 
-    const task = userTasks.tasks.id(taskId);
+    //fintd index of the task to update
+    const taskIndex = userTasks.tasks.findIndex(task => task._id.toString() === taskId);
 
-    if (!task) {
-      return reply.code(404).send({
-        error: "Task not found"
-      });
+    if (taskIndex === -1) {
+      return reply.code(404).send({ error: "Task not found" });
     }
 
-    Object.assign(task, updateData);
+    // here, the task with the new data
+    Object.assign(userTasks.tasks[taskIndex], updateData);
+
+    // The tasks are saved herw
     await userTasks.save();
 
     reply.send({
       message: "Task updated successfully",
-      task: task
+      task: userTasks.tasks[taskIndex]
     });
   } catch (err) {
-    reply.code(500).send({
-      error: "Error updating task"
-    });
+    console.error('Error updating task:', err);
+    reply.code(500).send({ error: "Error updating task" });
   }
 }
 
