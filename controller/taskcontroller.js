@@ -86,7 +86,7 @@ async function updateTask(req, reply) {
 
     //fintd index of the task to update
     const taskIndex = userTasks.tasks.findIndex(task => task._id.toString() === taskId);
-
+   
     if (taskIndex === -1) {
       return reply.code(404).send({ error: "Task not found" });
     }
@@ -98,8 +98,9 @@ async function updateTask(req, reply) {
     await userTasks.save();
 
     reply.send({
+      
       message: "Task updated successfully",
-      task: userTasks.tasks[taskIndex]
+      task: userTasks.tasks[taskIndex],taskIndex
     });
   } catch (err) {
     console.error('Error updating task:', err);
